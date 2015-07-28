@@ -1,9 +1,16 @@
 package com.example.administrator.listview;
 
+import android.media.Image;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -12,27 +19,46 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ListView listView = (ListView) findViewById(R.id.listView);
+        listView.setAdapter(new MyAdapter());
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+    public class MyAdapter extends BaseAdapter {
+        private String[] names = { "京东商城", "QQ", "QQ斗地主", "新浪微博", "天猫",
+                "UC浏览器", "微信" };
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        private int[]  icons = {R.drawable.jd,R.drawable.qq,R.drawable.qq_dizhu,
+                R.drawable.sina,R.drawable.tmall,R.drawable.uc,
+                R.drawable.weixin};
+
+
+        @Override
+        public int getCount() {
+            return names.length;
         }
 
-        return super.onOptionsItemSelected(item);
+        @Override
+        public Object getItem(int position) {
+            return names[position];
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View v = View.inflate(MainActivity.this, R.layout.list_item, null);
+            ImageView image = (ImageView)v.findViewById(R.id.image);
+            image.setBackgroundResource(icons[position]);
+
+            TextView textView = (TextView) v.findViewById(R.id.text);
+            textView.setText(names[position]);
+            return v;
+        }
     }
+
+
 }
